@@ -205,29 +205,74 @@ Without topology:
 
 ## E8 — Consequence Propagation
 
-Disturbance introduced by execution propagates through structure.
+Execution introduces physical disturbance into structured systems.
+
+Disturbance does not vanish without transformation and cost.
+
+Under current physical understanding:
+
+- Energy and momentum are conserved.
+- Information-bearing structure degrades under noise and entropy increase.
+- Gradients dissipate across available degrees of freedom.
+- Local order may decay into distributed disorder.
+
+Therefore:
+
+> No executed state transition is consequence-free.  
+> Effects are transformed, redistributed, delayed, attenuated, amplified, or diffused —  
+> but not removed without compensating physical process.
+
+Consequence propagation is governed by:
+
+- topology (E7),
+- conservation laws,
+- coupling strength,
+- buffering capacity,
+- latency,
+- and boundary permeability.
 
 Propagation may involve:
 
-- latency,
-- buffering,
-- amplification,
-- attenuation,
-- fan-out,
-- or masking.
+- dissipation into lower-structure states,
+- conversion across physical domains (mechanical → thermal → electrical),
+- masking below detection thresholds,
+- delayed emergence through accumulation,
+- redistribution across nodes.
 
-Propagation is governed by topology, not intent.
+Local detectability may disappear.
 
-Effects may be:
+Global conservation does not.
 
-- delayed,
-- displaced,
-- accumulated,
-- or redistributed.
+Irreversibility (E3) implies that:
 
-But they do not vanish.
+- even when macroscopic state appears restored,
+- microstate symmetry is not recoverable without additional resource expenditure.
 
-> No disturbance is annihilated; it is transformed or relocated.
+In bounded systems:
+
+- suppression of disturbance requires work,
+- isolation requires structure,
+- buffering consumes finite capacity (E1),
+- and concealment increases future uncertainty (E2).
+
+Consequences may become:
+
+- diffuse,
+- indirect,
+- temporally displaced,
+- or statistically encoded,
+
+but they remain structurally coupled to the system.
+
+Execution therefore always modifies:
+
+- resource distribution,
+- entropy gradients,
+- reachable state space,
+- and future viability (E9).
+
+No disturbance is free.
+It is transformed within constraint.
 
 ---
 
