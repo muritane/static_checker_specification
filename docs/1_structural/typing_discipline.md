@@ -1,42 +1,44 @@
-# Structural Typing Discipline  
-## A Static Checker for Claims About Execution in Bounded Systems
+# Structural Typing Discipline
+
+## A Static Coherence System for Execution Claims Under Physical Constraint
 
 ---
 
 ## Status
 
-This document defines the **structural typing layer** built on top of the Execution Primitives.
+This document defines the **Typing Layer** built on top of the measurable execution primitives (E1–E8).
 
 It does not introduce new physics.
-It does not introduce values.
-It does not prescribe behavior.
+It does not introduce norms.
+It does not select goals.
 
-It specifies when claims about:
+It specifies when claims about execution are:
 
-- action,
-- optimization,
-- agency,
-- responsibility,
-- evaluation,
-- meaning,
-- coordination,
-- governance,
+* Well-typed
+* Under-typed
+* Ill-typed
 
-are **well-formed** with respect to bounded execution under drift.
+with respect to bounded physical systems.
 
-If `0_core/execution_primitives.md` defines what must be true for systems to run,  
-this document defines what must be true for statements about those systems to be coherent.
+If the Core defines what must be physically true for execution to exist,
+this document defines what must be structurally true for statements about such systems to be coherent.
 
 ---
 
-## Dependency
+# 0. Dependency
 
-This layer assumes all primitives from:
+This layer assumes the measurable primitives:
 
-> `0_core/execution_primitives.md`
+* E1 — Finite Resource Vectors
+* E2 — Information Capacity Limits
+* E3 — Irreversibility
+* E4 — Lossy Representation and Actuation
+* E5 — Drift
+* E6 — Horizon Boundedness
+* E7 — Structured Topology
+* E8 — Conservation and Consequence Propagation
 
-If any execution primitive is invalidated,  
-all typing guarantees in this document must be re-evaluated.
+If any primitive changes, typing guarantees must be re-evaluated.
 
 ---
 
@@ -44,226 +46,299 @@ all typing guarantees in this document must be re-evaluated.
 
 All execution-relevant claims must be typed relative to an explicit or inferable environment:
 
-- **E** — Observation set and measurement quality  
-- **T̂** — Provisional consequence topology model  
-- **H** — Declared or inferable horizon  
-- **R** — Resource bounds and remaining margins  
+$$
+\mathcal{T} = (E, G, H, R, \Theta)
+$$
 
-Claims that do not specify or imply `(E, T̂, H, R)` are **under-typed**.
+Where:
 
-Under-typed does not mean false.
-It means structurally incomplete for execution reasoning.
+* **$E$** — Information structure
 
----
+  * Channel capacities (bits/s)
+  * Latency (s)
+  * Noise model
 
-# 2. Executability Boundary
+* **$G$** — Topology graph
 
-A strict boundary exists between:
+  * Nodes $V$
+  * Edges $E$
+  * Load routing structure
 
-### Interpretation (Non-Binding)
-- meaning
-- intent
-- justification
-- narrative
-- value declaration
+* **$H$** — Finite evaluation horizon (seconds, cycles, episodes)
 
-### Execution (Binding)
-- invocation
-- interface crossing
-- default triggering
-- state transition
-- constraint engagement
-- resource consumption
-- load propagation
+* **$R$** — Resource vectors for relevant loci
 
-Interpretation does not execute.
+  * Energy (J)
+  * Time (s)
+  * Memory (bytes)
+  * Compute (FLOPs/s)
+  * Financial or domain-specific resources
 
-Any claim that moves from interpretation to execution without specifying the crossing is **ill-typed**.
+* **$\Theta$** — Drift model
 
----
+  * Parameter evolution $\theta(t)$
+  * Drift bounds over $H$
 
-# 3. Viability Gate
-
-Optimization, improvement, or evaluation claims are meaningful only if:
-
-- continued execution remains possible over the declared horizon.
-
-If viability is failing or undefined:
-
-- optimization claims are **undefined**, not wrong.
-
-> Viability precedes optimization.
+Claims that omit necessary components of $\mathcal{T}$ are **Under-Typed**.
 
 ---
 
-# 4. Closure and Degree-of-Freedom Partition
+# 2. Claim Categories
 
-Executable participation requires closure.
+Every execution-relevant claim must belong to one of the following types:
 
-For any load-bearing task, degrees of freedom must be partitioned into:
+1. **Execution Claim**
 
-- **Essential** — fixed at entry
-- **Optional** — delegated within declared bounds
-- **Latent** — preserved for redesign or regime shift
-- **Irrelevant** — explicitly collapsed
-- **Unknown** — excluded from load-bearing execution
+   * Asserts that a state transition occurs.
+   * Must specify affected loci in topology.
 
-Systems that do not declare this partition cannot support agency-grade participation.
+2. **Trajectory Claim**
 
-Undeclared degrees of freedom create invisible constraint surfaces.
+   * Asserts behavior over time interval $[0, H]$.
+
+3. **Optimization Claim**
+
+   * Asserts improvement relative to metric.
+
+4. **Safety / Viability Claim**
+
+   * Asserts preservation of execution capacity over $H$.
+
+5. **Agency Claim**
+
+   * Asserts decision boundary prior to execution.
+
+6. **Responsibility Claim**
+
+   * Attributes load or outcome to locus in topology.
+
+7. **Metric Claim**
+
+   * Defines evaluative function over trajectories.
+
+8. **Governance Claim**
+
+   * Modifies constraints or typing environment.
+
+Type confusion results in ill-typed discourse.
 
 ---
 
-# 5. Decidable Boundary (Agency Typing)
+# 3. Interpretation vs Execution Boundary
 
-Agency is typeable only at a pre-execution boundary where:
+There exists a strict boundary between:
 
-- acceptance and refusal are both executable,
-- refusal has bounded and declared consequences,
-- constraints are explicit prior to entry.
+## Interpretation (Non-Binding)
 
-If refusal exists only narratively,  
-agency attribution is ill-typed.
+* Narrative
+* Meaning
+* Hypothesis
+* Preference
+* Intention
+* Value declaration
+
+These do not modify topology or resource vectors.
+
+## Execution (Binding)
+
+Execution occurs when:
+
+* Resource vector R changes,
+* State transition occurs,
+* Load propagates through G,
+* Contract or interface is invoked,
+* Irreversible action is taken.
+
+Crossing the boundary activates physical constraints (E1–E8).
+
+A claim that moves from interpretation to execution without specifying:
+
+* Affected nodes,
+* Resource consumption,
+* Horizon,
+
+is ill-typed.
+
+---
+
+# 4. Trajectory Safety Predicate (Derived Viability)
+
+Viability is not primitive.
+
+It is a trajectory predicate:
+
+$$
+V(H) := \forall t \in [0,H], r_i(t) \ge \tau_i
+$$
+
+Where:
+
+* $r_i(t)$ are resource components,
+* $\tau_i$ are declared collapse thresholds.
+
+A system is trajectory-safe over $H$ if:
+
+* Resource floors are not breached,
+* Irreversible collapse states are not entered,
+* Information channels remain functional.
+
+All optimization claims must declare a trajectory safety predicate.
+
+Optimization without declared safety thresholds is ill-typed.
+
+---
+
+# 5. Optimization Typing Rule
+
+An optimization claim:
+
+$$
+\Delta M > 0
+$$
+
+is well-typed only if:
+
+1. Metric $M$ is defined and computable under $R$.
+2. Horizon $H$ is declared.
+3. Drift model $\Theta$ is specified or bounded.
+4. Safety predicate $V(H)$ is declared.
+
+Otherwise the claim is Under-Typed.
+
+If optimization violates declared safety predicate, it is Ill-Typed.
+
+---
+
+# 6. Degree-of-Freedom (DOF) Partition
+
+Executable participation requires explicit DOF partitioning:
+
+For a given decision boundary:
+
+* **Essential DOFs** — Fixed prior to execution.
+* **Delegated DOFs** — Adjustable within bounds.
+* **Latent DOFs** — Reserved for redesign.
+* **Collapsed DOFs** — Intentionally eliminated.
+* **Unknown DOFs** — Not modeled.
+
+Failure to partition DOFs results in invisible constraint surfaces.
+
+Invisible constraints cause misattributed responsibility.
+
+---
+
+# 7. Agency Typing
+
+Agency exists only at pre-execution decision boundaries.
+
+A boundary is agency-typed if:
+
+1. Acceptance and refusal are executable.
+2. Consequences of refusal are bounded.
+3. DOFs are declared.
+4. Horizon scope is explicit.
+
+If refusal leads to unbounded collapse, agency claim is ill-typed.
 
 Inside execution, only discretion exists — not agency.
 
 ---
 
-# 6. Responsibility Typing
+# 8. Responsibility Typing
 
-Responsibility is structurally coherent only when:
+Responsibility attribution must follow topology.
 
-- entry into execution was decidable,
-- relevant degrees of freedom were declared,
-- outcomes depended on controllable variables,
-- failure semantics were explicit,
-- load routing is legible in topology.
+A responsibility claim is well-typed only if:
 
-Responsibility follows load location, not:
+1. The locus controls relevant DOFs.
+2. Load routing through $G$ is traceable.
+3. Outcome depends causally on locus-controlled variables.
+4. Horizon is aligned.
 
-- intent,
-- moral narrative,
-- proximity,
-- status,
-- or rhetorical involvement.
+Intent, status, proximity, or narrative involvement are insufficient.
 
-Absent load traceability, responsibility claims are under-typed.
+Responsibility follows load accumulation under E7 and E8.
 
 ---
 
-# 7. Metric Validity
+# 9. Metric Validity
 
-A metric is valid as a coordination interface only if it:
+A metric $M$ is valid only if:
 
-- is substitutable across evaluators,
-- is computable within resource bounds,
-- yields determinate outcomes under a protocol,
-- **fails explicitly** outside its envelope.
+1. It is computable under $R$.
+2. It is horizon-bound.
+3. It is reproducible under declared $E$.
+4. It fails explicitly outside its domain.
 
-Metrics that never fail accumulate hidden drift and are ill-typed as coordination artifacts.
+A metric that never fails accumulates unmodeled drift.
 
 Implicit reinterpretation of metric failure is structural decay.
 
 ---
 
-# 8. Meaning for Coordination
+# 10. Drift Sensitivity Rule
 
-Meaning becomes structurally binding only when it is:
+All trajectory and optimization claims must specify one of:
 
-- externally addressable,
-- substitutable across agents,
-- admitted into a protocol,
-- subject to attributable failure cost.
+* Drift bound over $H$,
+* Stationarity assumption,
+* Regime boundary.
 
-Meaning that cannot fail cannot coordinate.
-
-Internal meaning remains real for the agent  
-but is not system-binding.
+Failure to declare drift exposure makes long-horizon claims under-typed.
 
 ---
 
-# 9. Narrative Regime (Non-Binding Coordination)
+# 11. Redesign Safety
 
-Narrative and interpretation coordinate only while acceptance holds.
+A system remains redesign-safe only if:
 
-Narrative imposes:
+* DOFs remain partially latent.
+* Safety predicate is observable.
+* Collapse thresholds are explicit.
+* Horizon can be revised.
+* Interface contracts are versioned.
 
-- no enforced invariants,
-- no structural failure semantics,
-- no irreversible cost.
-
-Narrative regimes are valid in exploratory contexts.
-
-They collapse under load-bearing execution.
-
-Confusing narrative acceptance with executional constraint is ill-typed.
+A representation that cannot represent its own invalidation is ill-typed.
 
 ---
 
-# 10. Redesign Safety
+# 12. Power (Descriptive Typing)
 
-Systems remain redesign-safe only if they preserve or allow recovery of:
+Power is defined as:
 
-- horizon specification,
-- execution vs interpretation distinction,
-- irreversibility awareness,
-- interruptible boundaries,
-- load traceability.
+> Capacity to modify $R$, $G$, $H$, or DOF partitions.
 
-Abstractions that erase their own invalidation conditions are redesign-unsafe.
+Power claims must specify:
 
-Redesign is re-typing under updated `(E, T̂, H, R)`.
-
----
-
-# 11. Power (Descriptive Typing)
-
-Power is the capacity to:
-
-- reassign disturbance,
-- reallocate buffer ownership,
-- shift cost across nodes,
-- extend or compress horizons,
-- alter load topology.
+* Which resource vectors are affected,
+* Which nodes absorb load,
+* Which horizon is altered.
 
 Power does not eliminate cost.
 
-It redistributes it.
-
-Claims about power that do not specify topology are under-typed.
+It redistributes load.
 
 ---
 
-# 12. Claim Categories
-
-All claims about execution fall into one of:
-
-- **Execution claims** — causal state transition assertions
-- **Optimization claims** — improvement assertions
-- **Agency claims** — boundary choice assertions
-- **Responsibility claims** — load attribution assertions
-- **Metric claims** — evaluation interface assertions
-- **Meaning claims** — coordination artifact assertions
-- **Governance claims** — boundary and redesign authority assertions
-
-Typing errors frequently arise from claim-kind confusion.
-
----
-
-# 13. Typing Outcomes (Three-Valued)
+# 13. Three-Valued Typing Outcome
 
 Every claim is exactly one of:
 
-### Well-Typed
-Structurally coherent under declared `(E, T̂, H, R)`.
+## Well-Typed
 
-### Under-Typed
-Missing required primitives, witnesses, or declarations.
+Structurally coherent under declared $\mathcal{T}$.
 
-### Ill-Typed
-Violates execution primitives or structural rules.
+## Under-Typed
 
-The three-valued system is necessary under partial observability and horizon bounds.
+Missing necessary declarations or witnesses.
+
+## Ill-Typed
+
+Violates execution primitives or internal consistency.
+
+Truth is orthogonal to typing.
+
+Typing concerns structural admissibility under physical constraint.
 
 ---
 
@@ -271,43 +346,30 @@ The three-valued system is necessary under partial observability and horizon bou
 
 This discipline does not:
 
-- determine moral correctness,
-- determine truth,
-- select goals,
-- choose optimal policies,
-- guarantee success,
-- eliminate conflict.
+* Determine moral correctness.
+* Guarantee success.
+* Select goals.
+* Eliminate conflict.
+* Enforce norms.
 
 It determines only:
 
-> Whether a claim about bounded execution could possibly be coherent.
+Whether a claim about bounded execution is structurally coherent.
 
 ---
 
-# Summary
+# 15. Summary
 
-Given the execution primitives:
+Given measurable physical primitives (E1–E8), this typing discipline:
 
-- finite resources,
-- partial observability,
-- irreversibility,
-- abstraction loss,
-- drift,
-- horizon boundedness,
-- topology,
-- consequence propagation,
-- structural viability,
+* Forces explicit horizons,
+* Requires topology declaration,
+* Binds optimization to trajectory safety,
+* Prevents false agency claims,
+* Grounds responsibility in load routing,
+* Requires metrics to fail explicitly,
+* Makes drift visible.
 
-this typing discipline:
+It is a static coherence system for execution discourse.
 
-- rejects category errors,
-- marks incomplete reasoning,
-- forces explicit horizons and load paths,
-- prevents false agency and false responsibility,
-- stabilizes coordination claims.
-
-It does not tell you what to want.
-
-It tells you when what you are saying  
-is structurally admissible  
-for systems that must actually run.
+All higher layers must type-check against it.
