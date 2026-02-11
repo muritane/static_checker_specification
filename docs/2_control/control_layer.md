@@ -1,5 +1,6 @@
-# Control Layer  
-## Stability, Regulation, and Intervention Under Bounded Execution
+# Control Layer
+
+## Regulation of State Trajectories Under Finite Resources, Drift, and Disturbance
 
 ---
 
@@ -9,410 +10,402 @@ This document defines the **Control Layer** of the stack.
 
 It assumes:
 
-- `0_core/execution_primitives.md`
-- `1_structural/typing_discipline.md`
+* Measurable execution primitives (E1–E8)
+* Structural Typing Discipline
 
-It does **not** introduce new physics.
-It does **not** introduce values.
+It introduces no norms and selects no goals.
 
-It specifies how systems:
+It specifies how a bounded physical system regulates its state trajectory over a finite horizon under:
 
-- regulate themselves,
-- intervene in trajectories,
-- maintain stability,
-- manage disturbance,
-- allocate corrective effort,
+* Resource constraints
+* Exogenous disturbance
+* Parameter drift
+* Information limits
+* Irreversibility
 
-under bounded resources, drift, and irreversible abstraction.
-
-If the Execution Layer answers:
-> What must be true for systems to run?
-
-and the Typing Layer answers:
-> When are claims about execution well-formed?
-
-the Control Layer answers:
-> How can a system remain stable and viable under disturbance and drift?
+Control is treated as a measurable closed-loop process.
 
 ---
 
-# 1. Scope
+# 1. System Model
 
-This layer applies when:
+Let system state be:
 
-- state transitions are ongoing,
-- disturbance propagates,
-- viability must be preserved,
-- and regulation is required.
+$$
+x(t) \in \mathbb{R}^n
+$$
 
-It includes:
+Let control input be:
 
-- feedback systems,
-- governance loops,
-- adaptive agents,
-- robotic control stacks,
-- organizational control mechanisms,
-- institutional correction processes.
+$$
+u(t) \in \mathbb{R}^m
+$$
 
-It does not assume intelligence.
-It does not assume morality.
-It does not assume optimization.
+Let exogenous disturbance be:
 
-It assumes only that:
-> The system must keep running.
+$$
+d(t) \in \mathbb{R}^k
+$$
 
----
+Let system parameters (subject to drift) be:
 
-# 2. Control as Constraint Enforcement
+$$
+\theta(t)
+$$
 
-Control is the structured process by which a system:
+System dynamics:
 
-- senses deviation,
-- compares against constraints,
-- injects corrective action,
-- and reallocates resources to maintain viability.
-
-Control is not optimization.
-Control is viability preservation under disturbance.
+$$
+\dot{x}(t) = f(x(t), u(t), d(t), \theta(t))
+$$
 
 ---
 
-# 3. Structural Components of Control
+# 2. Finite Horizon
 
-Every control regime contains:
+All control evaluation occurs over finite:
 
-## 3.1 Sensing
+$$
+H \in (0, \infty)
+$$
 
-- Measurement of state variables.
-- Imperfect and resource-bounded.
-- Subject to latency and noise.
-- Dependent on abstraction and compression (E4).
+Time interval:
 
-Control cannot exceed sensing fidelity.
+$$
+t \in [0, H]
+$$
 
----
-
-## 3.2 Model
-
-- A compressed representation of causal structure (E4).
-- Horizon-bounded (E6).
-- Drift-sensitive (E5).
-
-Model mismatch is inevitable.
-Control must tolerate misalignment.
+No infinite-horizon assumptions are permitted.
 
 ---
 
-## 3.3 Policy
+# 3. Resource Constraints
 
-- Mapping from sensed state to intervention.
-- Consumes resources (E1).
-- Collapses alternatives (E3).
+Each execution locus has resource vector:
 
-Policies trade flexibility for responsiveness.
+$$
+R(t) = (r_1(t), ..., r_p(t))
+$$
 
----
+With measurable components such as:
 
-## 3.4 Actuation
+* Energy (J)
+* Computation (FLOPs/s)
+* Memory (bytes)
+* Bandwidth (bits/s)
+* Financial units
+* Thermal headroom
 
-- Injects disturbance into topology (E7, E8).
-- Consumes finite resources (E1).
-- Irreversibly commits transitions (E3).
+Each resource has lower bound (collapse threshold):
 
-Control action is itself execution.
+$$
+r_i(t) \ge \tau_i
+$$
 
----
+Resource dynamics:
 
-## 3.5 Feedback Loop
+$$
+\dot{r}_i(t) = g_i(x(t), u(t), d(t))
+$$
 
-- Links sensing → model → policy → actuation → updated state.
-- Bounded by latency.
-- Limited by bandwidth.
-- Sensitive to drift.
-
-Control stability is limited by loop delay and resource margin.
-
----
-
-# 4. Stability Under Drift
-
-Because drift is structural (E5), stability cannot mean:
-
-- permanent equilibrium,
-- invariant invariants,
-- static correctness.
-
-Stability means:
-
-> Viability is preserved within a declared horizon under bounded disturbance.
-
-Control must therefore manage:
-
-- disturbance magnitude,
-- disturbance frequency,
-- buffer capacity,
-- model degradation.
+Control must operate without violating resource thresholds.
 
 ---
 
-# 5. Buffers and Slack
+# 4. Disturbance Model
 
-Buffers include:
+Disturbance is exogenous input:
 
-- energy reserves,
-- time margins,
-- redundancy,
-- spare capacity,
-- coordination tolerance.
+$$
+d(t)
+$$
 
-Buffers:
+Assume bounded magnitude:
 
-- delay consequence propagation (E8),
-- absorb disturbance,
-- reduce control gain requirements.
+$$
+|d(t)| \le D
+$$
 
-But buffers:
+for some declared disturbance bound $D$.
 
-- are finite (E1),
-- hide accumulating error,
-- create latency in failure detection.
+Disturbance may represent:
 
-No buffer eliminates cost.
-It redistributes it over time.
+* Environmental forces
+* Noise
+* Demand shocks
+* Input variability
+* External perturbation
 
----
-
-# 6. Control Regimes
-
-Control regimes differ in aggressiveness and structure.
-
-## 6.1 Reactive Control
-
-- Acts after deviation is observed.
-- Lower modeling cost.
-- Higher latency.
-- More disturbance accumulation.
+Disturbance is not under direct control.
 
 ---
 
-## 6.2 Predictive Control
+# 5. State Safety Constraints
 
-- Uses model to anticipate deviation.
-- Higher modeling cost.
-- Lower steady-state disturbance.
-- More brittle under drift.
+Instead of undefined global bound $B$ or abstract region $\mathcal{C}$, we define **explicit constraint functions**.
 
----
+Let:
 
-## 6.3 Adaptive Control
+$$
+g_i(x(t)) \le 0
+$$
 
-- Updates model during execution.
-- Consumes redesign bandwidth.
-- Competes with exploitation.
-- Requires preserved redesign pathways (Typing Layer §10).
+$$
+for ( i = 1,...,q )
+$$
 
----
+Each constraint represents a measurable physical or operational limit, such as:
 
-## 6.4 Structural Redesign
+* Temperature ≤ Tmax
+* Debt ≤ Dmax
+* Voltage ≤ Vmax
+* Error ≤ εmax
+* Queue length ≤ Qmax
 
-- Changes topology or constraints.
-- Not merely adjusting policy.
-- High cost.
-- Horizon-expanding.
+The system is state-safe over horizon $H$ if:
 
-Redesign belongs at boundary between Control and Governance layers.
+$$
+g_i(x(t)) \le 0, \quad \forall i, \forall t \in [0,H]
+$$
 
----
-
-# 7. Control and Viability
-
-Control is subordinate to viability (Execution E9).
-
-If control policy:
-
-- preserves short-term metrics,
-- but collapses long-horizon viability,
-
-it is structurally invalid.
-
-Control must be evaluated relative to declared horizon (E6).
+State safety is explicit and unit-grounded.
 
 ---
 
-# 8. Control Cost
+# 6. Stability Definition
 
-Control is not free.
+The system is stable over horizon H under disturbance bound $D$ if:
 
-It consumes:
+1. State constraints remain satisfied:
 
-- sensing bandwidth,
-- computation,
-- actuation energy,
-- coordination capacity,
-- buffer margin.
+$$
+g_i(x(t)) \le 0, \quad \forall t \in [0,H]
+$$
 
-Over-control can destabilize systems by:
+2. Resource thresholds remain satisfied:
 
-- amplifying noise,
-- increasing latency,
-- exhausting resources,
-- suppressing redesign signals.
+$$
+r_j(t) \ge \tau_j, \quad \forall t \in [0,H]
+$$
 
-Under-control allows:
+3. Control inputs remain within actuator limits:
 
-- drift accumulation,
-- buffer saturation,
-- catastrophic transitions.
+$$
+|u(t)| \le U_{max}
+$$
 
-Control is a constrained balancing act.
+Stability does not require convergence to equilibrium.
 
----
-
-# 9. Control Failure Modes
-
-Common structural failures include:
-
-## 9.1 Latency Overshoot
-
-Correction arrives too late due to:
-
-- long feedback loops,
-- slow sensing,
-- delayed consequence visibility.
+It requires bounded, constraint-satisfying trajectory under bounded disturbance.
 
 ---
 
-## 9.2 Model Drift
+# 7. Closed-Loop Control Structure
 
-Model no longer matches environment.
-Correction pushes in wrong direction.
+Control law:
 
----
+$$
+u(t) = \pi(\hat{x}(t))
+$$
 
-## 9.3 Hidden Buffer Saturation
+Where:
 
-Buffers absorb disturbance silently.
-Failure appears sudden.
+* $\hat{x}(t)$ is state estimate.
+* Estimation is subject to E2 (information capacity limits).
+* Policy complexity is bounded by resource vector $R$.
 
----
+Sensing model:
 
-## 9.4 Control Oscillation
+$$
+y(t) = h(x(t)) + \eta(t)
+$$
 
-Overcorrection amplifies noise.
-Stability margin collapses.
+With:
 
----
+* Finite sampling rate
+* Finite bandwidth
+* Noise term $\eta(t)$
 
-## 9.5 Viability-Blind Optimization
+Estimation error:
 
-Control optimizes local metric
-while eroding global survival margin.
+$$
+e(t) = x(t) - \hat{x}(t)
+$$
 
----
-
-# 10. Control and Topology
-
-Control action changes load routing.
-
-Intervention:
-
-- redistributes disturbance,
-- reassigns buffer ownership,
-- shifts burden across nodes.
-
-Control without topology awareness:
-
-- misattributes responsibility,
-- hides cost,
-- induces power asymmetry.
-
-Topology awareness is mandatory for governance.
+Control quality is limited by estimation accuracy.
 
 ---
 
-# 11. Control vs Optimization
+# 8. Latency
 
-Optimization:
+All feedback loops incur delay:
 
-- improves performance along declared metric.
+$$
+\tau > 0
+$$
 
-Control:
+Effective control input is based on delayed estimate:
 
-- preserves viability under disturbance.
+$$
+u(t) = \pi(\hat{x}(t-\tau))
+$$
 
-Optimization without control is brittle.
-Control without optimization is conservative.
+Latency reduces stability margin.
 
-The stack requires:
-
-Viability → Control → Optimization  
-(not the reverse).
-
----
-
-# 12. Control Layer Boundaries
-
-This layer does not decide:
-
-- goals,
-- legitimacy,
-- value,
-- authority.
-
-It answers:
-
-> Given a goal and bounded execution, how can stability be maintained?
-
-Goal selection belongs above.
-Execution physics belongs below.
+Excessive delay may produce oscillation or divergence.
 
 ---
 
-# 13. Minimal Structural Invariants
+# 9. Drift
 
-For control to remain coherent:
+Parameters evolve:
 
-- Horizons must be declared (E6).
-- Topology must be representable (E7).
-- Buffers must be traceable (E8).
-- Drift must be acknowledged (E5).
-- Redesign path must exist (Typing Layer §10).
+$$
+\frac{d\theta}{dt} \neq 0
+$$
 
-If these collapse, control degenerates into narrative reassurance.
+Control designed for $\theta_0$ may become unstable as:
 
----
+$$
+\theta(t) \to \theta(t) + \Delta
+$$
 
-# 14. Relation to Robotics (Example Mapping)
+Drift magnitude over H:
 
-In robotics systems:
+$$
+D_\theta(H) = \int_0^H \left| \frac{d\theta}{dt} \right| dt
+$$
 
-- Sensing → sensor fusion
-- Model → world model / state estimator
-- Policy → planner / controller
-- Actuation → motor commands
-- Buffer → battery, thermal margin, computational headroom
-- Drift → terrain change, wear, latency shifts
-- Redesign → firmware update, architecture change
-
-The same structure holds for institutions and personal systems.
+Adaptive control may update $\pi$, consuming additional resources.
 
 ---
 
-# Summary
+# 10. Control Effort
 
-Control is:
+Control energy expenditure:
 
-- structured intervention under bounded resources,
-- viability-preserving regulation under drift,
-- disturbance management through topology,
-- and resource-aware corrective action.
+$$
+E_c = \int_0^H |u(t)| dt
+$$
 
-It does not remove irreversibility.
-It does not eliminate drift.
-It does not create infinite slack.
+Feasibility requires:
 
-It keeps systems running — temporarily and conditionally —  
-within declared horizons.
+$$
+E_c \le \text{available energy margin}
+$$
 
-Optimization and governance sit above it.
-Physics remains below it.
+Control is itself a resource-consuming process.
+
+Over-control may exhaust resource margins.
+
+---
+
+# 11. Buffer Dynamics
+
+Buffers are resource reserves.
+
+Let buffer variable:
+
+$$
+B(t)
+$$
+
+Dynamics:
+
+$$
+\dot{B}(t) = \text{inflow} - \text{outflow}
+$$
+
+Collapse occurs if:
+
+$$
+B(t) < B_{min}
+$$
+
+Buffers delay failure but do not remove disturbance.
+
+Hidden buffer depletion increases fragility.
+
+---
+
+# 12. Failure Modes
+
+Control failure occurs when any of the following are violated:
+
+1. State constraint breach:
+
+$$
+g_i(x(t)) > 0
+$$
+
+2. Resource collapse:
+
+$$
+r_j(t) < \tau_j
+$$
+
+3. Actuator saturation:
+
+$$
+|u(t)| > U_{max}
+$$
+
+4. Instability under bounded disturbance:
+   small bounded $d(t)$ produces unbounded state.
+
+5. Drift exceeds adaptation capacity.
+
+Failure is physically observable, not narrative.
+
+---
+
+# 13. Interaction with Typing Layer
+
+Control claims must declare:
+
+* Horizon $H$
+* Disturbance bound $D$
+* Drift model or bound
+* Resource thresholds $\tau_j$
+* State constraint functions $g_i$
+
+A control claim without these is under-typed.
+
+A control policy violating declared thresholds is ill-typed.
+
+---
+
+# 14. What This Layer Does Not Do
+
+This layer does not:
+
+* Select which constraints matter.
+* Choose trade-offs.
+* Define norms.
+* Allocate authority.
+* Optimize metrics.
+
+It ensures constraint-satisfying trajectory under disturbance.
+
+---
+
+# 15. Summary
+
+Control under bounded execution is:
+
+* Closed-loop regulation of state
+* Under finite resources
+* Subject to bounded disturbance
+* Under parameter drift
+* Within finite horizon
+* Maintaining explicit state and resource constraints
+
+It is measurable.
+It is unit-grounded.
+It introduces no undefined bounds.
+It introduces no abstract regions.
+
+It enforces trajectory constraint satisfaction under physics.
+
+Optimization and norms belong above.
+Execution primitives remain below.
