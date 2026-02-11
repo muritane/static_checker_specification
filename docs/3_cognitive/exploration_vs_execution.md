@@ -1,6 +1,6 @@
 # Exploration vs Execution
 
-## Regime Separation Under Effective Infinity
+## Regime Separation Under Finite Resources and Irreversible Commitment
 
 ---
 
@@ -10,368 +10,373 @@ This document belongs to the **Cognitive Layer**.
 
 It assumes:
 
-* `0_core/execution_primitives.md`
-* `1_structural/typing_discipline.md`
-* `2_control/control_layer.md`
-* `3_cognitive/cognitive_layer.md`
+* Measurable execution primitives (E1–E8)
+* Structural Typing Discipline
+* Control Layer
+* Cognitive Layer
 
-It does not introduce new execution primitives.
+It introduces no new primitives.
 
-It clarifies:
+It formalizes the structural distinction between:
 
-> The structural difference between exploratory regimes and execution regimes
-> under bounded resources and effective infinity.
+* **Exploratory regimes** (non-binding computation)
+* **Execution regimes** (resource-committing state transition)
 
-Its purpose is to prevent:
+The purpose is to prevent type confusion between:
 
-* Execution framing imperialism,
-* Category errors between symbolic exploration and load-bearing action,
-* Collapse of plurality into constraint logic.
+* Representational search
+* Load-bearing physical execution
 
----
-
-# 1. Motivation
-
-The possibility space of:
-
-* language,
-* code,
-* ideas,
-* institutions,
-* identities,
-* social structures,
-* technologies,
-
-is combinatorially explosive.
-
-Even when syntactically finite (e.g., limited alphabet, limited instruction set),
-the number of distinct expressions grows exponentially with length.
-
-Under bounded resources (E1),
-this yields **effective infinity**.
-
-Effective infinity means:
-
-> The space is technically finite but operationally non-enumerable within horizon and resource constraints.
-
-Under effective infinity:
-
-* Exhaustive search is impossible.
-* Full comparison is impossible.
-* Global optimality is ill-typed.
-* Non-discovery does not imply non-existence.
-
-This document clarifies how exploration interacts with execution under these conditions.
+Constraint discipline activates only when execution begins.
 
 ---
 
-# 2. Two Regimes
+# 1. Definitions
 
-We distinguish two structurally different regimes:
+## 1.1 Exploration
 
-## 2.1 Exploration Regime (Non-Binding)
+Exploration is computation that:
 
-Exploration includes:
+* Does not modify external topology,
+* Does not commit irreversible state transitions outside the computing locus,
+* Does not reassign load across shared nodes,
+* Consumes only local resource vector components.
 
-* Speculation
-* Aesthetic play
-* Symbolic construction
-* Ideation
-* Hypothesis generation
-* Narrative formation
-* Theoretical modeling
-* Fiction
-* Counterfactual reasoning
+Formally:
 
-Characteristics:
+Let exploration state be:
 
-* No enforced load routing.
-* No committed resource expenditure beyond local cognition.
-* No topology modification.
-* No irreversible commitment beyond attention allocation.
-* No binding external consequences.
+$$
+\hat{x}(t)
+$$
 
-Exploration may violate:
+Exploration is confined to internal state transitions:
 
-* Normative constraints,
-* Stability requirements,
-* Viability considerations,
-* Optimization coherence,
-* Typing completeness.
+$$
+\hat{x}(t+1) = F(\hat{x}(t))
+$$
 
-Exploration is allowed to be:
+Without modifying:
 
-* Under-typed,
-* Internally inconsistent,
-* Over-extended,
-* Incoherent relative to execution physics.
+$$
+x_{external}(t)
+$$
 
-Exploration is generative.
+Exploration consumes:
 
-It expands representation.
+* Local computation
+* Local memory
+* Local time
+* Local energy
+
+But does not alter global resource distribution or topology.
 
 ---
 
-## 2.2 Execution Regime (Binding)
+## 1.2 Execution
 
-Execution includes:
+Execution is a state transition that:
 
-* Interface invocation,
-* Contract formation,
-* Deployment,
-* Actuation,
-* Resource commitment,
-* Topology modification,
-* Irreversible state transition.
+1. Alters physical or shared topology,
+2. Consumes shared resource components,
+3. Produces externally observable load redistribution,
+4. Is subject to irreversibility (E3).
 
-Characteristics:
+Formally, execution occurs when:
 
-* Load propagates (E8).
-* Resources are consumed (E1).
-* Irreversibility applies (E3).
-* Drift exposure begins (E5).
-* Horizon becomes binding (E6).
-* Viability constraints apply (E9).
+$$
+x(t+1) = f(x(t), u(t))
+$$
 
-Execution is not symbolic.
+Where:
 
-Execution is structural.
+* $x(t$ includes shared system state,
+* $u(t)$ commits actuation.
 
----
+Execution activates:
 
-# 3. The Boundary
-
-The critical distinction is:
-
-> Exploration becomes execution at the executability boundary.
-
-From the Typing Layer:
-
-Interpretation → Non-binding
-Invocation → Binding
-
-The boundary occurs when:
-
-* A proposal becomes implemented.
-* A statement becomes a contract.
-* A model becomes deployed.
-* A simulation becomes live.
-* A thought becomes an act affecting topology.
-
-Crossing this boundary activates:
-
-* Typing discipline,
-* Viability gate,
-* Control constraints,
-* Governance rules,
-* Strategic consequences.
-
-Before crossing, constraint discipline is suspended.
-
-After crossing, it is mandatory.
+* Conservation (E8),
+* Drift exposure (E5),
+* Resource constraints (E1),
+* Typing safety predicates.
 
 ---
 
-# 4. Effective Infinity and Representation
+# 2. Executability Boundary
 
-Because the space of possible expressions is combinatorially explosive:
+The executability boundary is crossed when:
 
-* Most possibilities will never be explored.
-* Most explored possibilities will never be executed.
-* Most executed possibilities will be locally chosen, not globally optimal.
+At least one of the following holds:
 
-This is structural.
+1. Resource vector $R$ outside local sandbox is modified.
+2. Shared topology $G$ is altered.
+3. External state $x_{external}$ changes.
+4. Irreversible actuation is committed.
+5. Contractual or interface invocation occurs.
 
-Under effective infinity:
+Before crossing boundary:
 
-> The role of cognition is traversal, not enumeration.
+* Typing discipline applies loosely.
+* Safety predicates are inactive.
+* Load routing is unchanged.
 
-Representation compresses space (E4a).
+After crossing boundary:
 
-Traversal prunes branches (E4b).
-
-Exploration enlarges representation.
-Execution collapses branches.
-
----
-
-# 5. What This Framework Does Not Do
-
-This architecture does **not**:
-
-* Constrain what one may imagine.
-* Define what one should want.
-* Collapse plurality of symbolic systems.
-* Eliminate aesthetic or interpretive diversity.
-* Reduce meaning to load-bearing execution.
-
-It only constrains:
-
-> What must be respected once execution is invoked.
-
-The internet analogy:
-
-* The internet does not dictate desire.
-* It constrains bandwidth, latency, and topology.
-* It enforces finite propagation.
-* It redistributes load under congestion.
-
-Similarly:
-
-This framework does not constrain aspiration.
-It constrains execution under shared topology.
+* Typing discipline is mandatory.
+* Control constraints apply.
+* Resource and state thresholds must be respected.
 
 ---
 
-# 6. Why Regime Separation Matters
+# 3. Effective Infinity
 
-Without explicit regime separation, two failure modes arise:
+Let decision space:
 
-## 6.1 Execution Imperialism
+$$
+A = {a_1, ..., a_N}
+$$
 
-Treating all symbolic activity as if it were load-bearing execution.
+Where:
 
-Results:
+$$
+N \gg \frac{C_{total}}{C_{eval}}
+$$
 
-* Suppression of exploration,
-* Loss of plurality,
-* Intellectual rigidity,
-* Cultural flattening,
-* Over-constraining upstream cognition.
+i.e., number of possible configurations far exceeds feasible evaluation capacity over $H$.
+
+A space is effectively infinite if:
+
+$$
+\text{Exhaustive evaluation infeasible within } (R, H)
+$$
+
+Effective infinity is computational, not set-theoretic.
+
+Exploration samples subset:
+
+$$
+A_{sampled} \subset A
+$$
+
+With:
+
+$$
+|A_{sampled}| \ll |A|
+$$
+
+Non-discovery does not imply non-existence.
+
+It implies infeasibility under resource constraint.
 
 ---
 
-## 6.2 Narrative Substitution
+# 4. Regime Properties
 
-Treating execution as if it were symbolic exploration.
+## 4.1 Exploration Regime
 
-Results:
+Properties:
 
-* Hidden load accumulation,
-* Responsibility evasion,
-* Drift blindness,
-* Metric collapse,
+* No shared resource modification.
+* No topology alteration.
+* Reversible within sandbox (subject to local E3).
+* No external safety predicate activation.
+* No governance enforcement required.
+
+Exploration may:
+
+* Evaluate inconsistent models.
+* Simulate unstable trajectories.
+* Consider norm violations.
+* Traverse infeasible regions.
+
+Exploration is computational search under local resource constraints.
+
+---
+
+## 4.2 Execution Regime
+
+Properties:
+
+* Shared resource consumption.
+* State constraints active.
+* Drift exposure begins.
+* Irreversibility applies.
+* Disturbance propagates.
+* Responsibility becomes typeable.
+
+Execution is load-bearing.
+
+Execution is structurally constrained.
+
+---
+
+# 5. Sandbox Condition
+
+Exploration remains non-binding only if sandbox condition holds:
+
+1. Resource use is isolated.
+2. State modifications are internal.
+3. No irreversible external actuation.
+4. No shared topology update.
+5. No contract enforcement triggered.
+
+If sandbox condition fails, exploration transitions to execution.
+
+---
+
+# 6. Transition Rule
+
+Transition occurs when proposal becomes actuation.
+
+Formally:
+
+Exploration variable $a$ becomes execution input $u(t)$.
+
+$$
+a \rightarrow u(t)
+$$
+
+At that moment:
+
+* Constraint functions $g_i(x)$ become active.
+* Resource thresholds $r_j(t) \ge \tau_j$ apply.
+* Drift exposure accumulates.
+* Disturbance propagation begins.
+
+Transition is irreversible in general.
+
+---
+
+# 7. Multi-Agent Implications
+
+In shared topology:
+
+Exploration is typically local to a node.
+
+Execution modifies global graph:
+
+$$
+G_{t+1} \neq G_t
+$$
+
+A single actuation may:
+
+* Redistribute load.
+* Trigger cascading failures.
+* Alter buffer ownership.
+* Modify authority structure.
+
+Therefore:
+
+Exploration may be plural.
+Execution must respect shared constraints.
+
+---
+
+# 8. Error Modes
+
+Failure to separate regimes produces two classes of error:
+
+---
+
+## 8.1 Over-Constraining Exploration
+
+Applying execution-level constraints to sandbox search.
+
+Effects:
+
+* Reduced innovation.
+* Premature closure.
+* Suppressed model updating.
+
+---
+
+## 8.2 Under-Constraining Execution
+
+Treating execution as symbolic exploration.
+
+Effects:
+
+* Hidden load accumulation.
+* Untracked resource depletion.
+* Metric drift.
 * Governance failure.
 
 ---
 
-# 7. Activation Rule
+# 9. Redesign and Safe Deployment
 
-Constraint discipline activates only when:
-
-* Resource commitment is real,
-* Irreversibility applies,
-* Topology is modified,
-* External consequence propagation begins.
-
-Before that point:
-
-* Plurality is preserved,
-* Exploration is free,
-* Contradictions may coexist,
-* Speculative reasoning may operate without full typing.
-
-After that point:
-
-* Claims must type-check,
-* Viability must be preserved,
-* Load must be traceable,
-* Failure semantics must exist.
-
----
-
-# 8. Exploration as Necessary Precondition
-
-Exploration is not inferior to execution.
-
-Exploration:
-
-* Expands representation,
-* Reveals new topologies,
-* Generates alternative norms,
-* Produces redesign options,
-* Preserves latent degrees of freedom.
-
-Execution without exploration becomes brittle.
-Exploration without execution becomes inert.
-
-Both are necessary.
-
-They are structurally distinct.
-
----
-
-# 9. Multi-Agent Implications
-
-In shared systems:
-
-Exploration is mostly local.
-
-Execution is distributed.
-
-A single write operation on a global system may:
-
-* Modify topology,
-* Redistribute load,
-* Induce cascading failure,
-* Consume shared buffer.
-
-Therefore:
-
-Exploration can be plural.
-Execution must respect shared viability.
-
----
-
-# 10. Redesign and Safe Reversion
-
-Exploratory structures may:
+Exploratory models may:
 
 * Simulate,
-* Prototype,
-* Model,
-* Emulate.
+* Emulate,
+* Prototype.
 
-If sandboxed:
+Deployment occurs when:
 
-* They remain exploratory.
+$$
+\hat{x}(t) \rightarrow x(t)
+$$
 
-If deployed:
+Governance must:
 
-* They become execution.
+* Declare transition explicitly.
+* Specify horizon $H$.
+* Declare safety predicates.
+* Assign responsibility.
 
-Governance must ensure:
+Implicit deployment is ill-typed.
 
-* Clear sandbox boundaries,
-* Controlled deployment transitions,
-* Explicit activation of constraint discipline.
+---
 
-This preserves redesign capacity.
+# 10. Interaction with Typing Layer
+
+Typing discipline activates fully only in execution regime.
+
+Exploration claims may be:
+
+* Under-typed
+* Internally inconsistent
+* Speculative
+
+Execution claims must be:
+
+* Well-typed under declared environment
+* Safety-bounded
+* Horizon-explicit
+
+Optimization claims apply only in execution regime.
 
 ---
 
 # 11. Summary
 
-Under effective infinity:
+Under finite resources and irreversibility:
 
-* Possibility space is combinatorially explosive.
-* Enumeration is impossible.
-* Traversal is path-dependent.
-* Representation is compressive.
+Two structurally distinct regimes exist:
 
-Two regimes exist:
+Exploration:
 
-Exploration → non-binding, generative, plural
-Execution → binding, load-bearing, viability-constrained
+* Internal computation
+* No shared load
+* No topology modification
+* Reversible within sandbox
+* Search under effective infinity
 
-This architecture constrains only the second.
+Execution:
 
-It does not collapse the first.
+* Shared resource consumption
+* Irreversible state transition
+* Disturbance propagation
+* Constraint activation
+* Responsibility attribution
 
-Constraint logic applies at the boundary.
+Constraint discipline applies at the executability boundary.
 
-Plurality remains intact upstream.
+Regime separation preserves:
 
-Execution remains coherent downstream.
+* Computational freedom upstream
+* Structural coherence downstream
 
-Regime separation preserves both freedom and viability.
+Both regimes are necessary.
+They are not interchangeable.
