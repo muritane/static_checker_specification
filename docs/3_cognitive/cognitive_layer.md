@@ -1,5 +1,6 @@
-# Cognitive Layer  
-## Representation, Traversal, and Decision Under Effective Infinity
+# Cognitive Layer
+
+## Representation, Search, and Commitment Under Finite Information and Drift
 
 ---
 
@@ -9,28 +10,26 @@ This document defines the **Cognitive Layer** of the stack.
 
 It assumes:
 
-- `0_core/execution_primitives.md`
-- `1_structural/typing_discipline.md`
-- `2_control/control_layer.md`
+* Measurable execution primitives (E1–E8)
+* Structural Typing Discipline
+* Control Layer
 
-It does not introduce new physics.
-It does not introduce normative claims.
+It does not introduce:
 
-It specifies how bounded agents:
+* Norms
+* Authority
+* Legitimacy
+* Goals
 
-- represent possibility spaces,
-- traverse effectively infinite domains,
-- allocate attention,
-- compress state,
-- decide under partial observability,
-- and cope with irreversible abstraction.
+It specifies how a bounded system:
 
-If the Execution Layer defines what must be true for systems to run,  
-and the Control Layer defines how systems stabilize under disturbance,
+* Represents state under information limits,
+* Searches large possibility spaces under finite resources,
+* Allocates attention,
+* Commits to actions under irreversibility,
+* Updates models under drift.
 
-the Cognitive Layer defines:
-
-> How bounded agents choose what to see, explore, ignore, and commit to.
+Cognition is treated as constrained computation under physical limits.
 
 ---
 
@@ -38,328 +37,396 @@ the Cognitive Layer defines:
 
 This layer applies when:
 
-- the state space is too large to enumerate,
-- evaluation is costly,
-- attention is scarce,
-- representation is compressed,
-- and traversal is path-dependent.
+* State space is too large to enumerate exhaustively,
+* Evaluation of alternatives is costly,
+* Information is incomplete,
+* Representation is compressed,
+* Action is irreversible.
 
 It applies to:
 
-- biological cognition,
-- artificial agents,
-- planning systems,
-- research programs,
-- cultural evolution,
-- career trajectories,
-- exploration under uncertainty.
+* Biological cognition,
+* Artificial agents,
+* Planning systems,
+* Institutional learning processes,
+* Research programs.
 
-It does not assume intelligence in the human sense.
-It assumes bounded traversal under constraint.
+It models traversal under resource constraint.
 
 ---
 
-# 2. Effective Infinity
+# 2. State Representation
 
-A space is **effectively infinite** when:
+Let full system state be:
 
-- full enumeration exceeds resource bounds (E1),
-- evaluation cost dominates search,
-- drift invalidates static maps (E5),
-- or halting occurs before global coverage.
+$$
+x(t) \in \Omega
+$$
 
-Effective infinity is an executional property, not a set-theoretic one.
+Where $\Omega$ is high-dimensional state space.
 
-Under effective infinity:
+Due to E1 and E2, representation is compressed:
 
-- global optimization is ill-typed,
-- exhaustive comparison is impossible,
-- reachability replaces existence as the operative category.
+$$
+\hat{x}(t) = \phi(x(t))
+$$
+
+Where:
+
+$$
+\phi: \Omega \rightarrow \hat{\Omega}
+$$
+
+And:
+
+$$
+|\hat{\Omega}| \ll |\Omega|
+$$
+
+Compression incurs information loss:
+
+$$
+I(x; \hat{x}) < H(x)
+$$
+
+where $I(x; \hat{x})$ is the mutual information and $H(x)$ is the entropy of the source.
+
+Representation quality is bounded by:
+
+* Channel capacity (bits/s)
+* Memory (bytes)
+* Computation (FLOPs/s)
+
+Representation is necessarily incomplete.
 
 ---
 
-# 3. Representation as Compression
+# 3. Effective Search Space
 
-All cognition relies on representational compression (E4a).
+Let decision space be:
 
-Representation:
+$$
+A = {a_1, a_2, ..., a_N}
+$$
 
-- discards distinctions,
-- defines equivalence classes,
-- shapes what is perceptible,
-- constrains what can be imagined,
-- limits what can be evaluated.
+For realistic systems:
 
-Representation is:
+$$
+N \gg \text{feasible evaluations within } H
+$$
 
-- horizon-bound (E6),
-- topology-sensitive (E7),
-- drift-exposed (E5).
+Define evaluation cost:
 
-Representation is not neutral.
-It determines reachable futures.
+$$
+C_{eval}(a)
+$$
+
+Total evaluation capacity over horizon $H$:
+
+$$
+C_{total} = \int_0^H \text{compute}(t), dt
+$$
+
+Feasible search is bounded:
+
+$$
+\sum C_{eval}(a_i) \le C_{total}
+$$
+
+Exhaustive search is typically infeasible.
+
+Global optimality is generally computationally intractable.
 
 ---
 
-# 4. Traversal and Path Dependence
+# 4. Traversal Dynamics
 
-Traversal is movement through possibility space under resource bounds.
+Search proceeds sequentially:
 
-Traversal is:
+$$
+a_{t+1} = S(\hat{x}(t), \mathcal{H}_t)
+$$
 
-- sequential,
-- lossy,
-- irreversible (E3),
-- attention-limited (E1).
+Where:
 
-Path dependence means:
+* $\mathcal{H}_t$ is search history.
+* $S$ is selection function.
 
-> Future discoverability depends on prior traversal.
+Traversal is path-dependent because:
 
-Once a path is taken:
+1. Representation updates after each evaluation.
+2. Resource depletion reduces future search capacity.
+3. Irreversible commitments remove alternatives.
 
-- alternative branches become costly,
-- representation updates bias future selection,
-- missed structures compound into exclusion.
+Let reachable action subset at time $t$ be:
 
-Traversal commits blindness.
+$$
+A_t \subseteq A
+$$
+
+Due to commitment:
+
+$$
+A_{t+1} \subseteq A_t
+$$
+
+Irreversibility reduces reachable option set.
 
 ---
 
 # 5. Exploration vs Exploitation
 
-Cognitive systems alternate between:
+Define exploration rate parameter:
 
-## Exploration
-- Preserve degrees of freedom.
-- Expand representation.
-- Probe unknown regions.
-- Accept inefficiency.
-- Increase model uncertainty.
+$$
+\epsilon(t) \in [0,1]
+$$
 
-## Exploitation
-- Collapse degrees of freedom.
-- Commit to known policies.
-- Extract returns.
-- Reduce variance.
-- Increase specialization.
+Where:
 
-The transition is irreversible at fine granularity.
+* $\epsilon = 1$: full exploration
+* $\epsilon = 0$: pure exploitation
 
-Exploration consumes viability margin.
-Exploitation risks drift-induced brittleness.
+Exploration increases:
 
-Balancing them is structural, not moral.
+* Model uncertainty
+* Information acquisition
+* Immediate cost
 
----
+Exploitation increases:
 
-# 6. Attention as Scarce Allocation
+* Immediate performance
+* Specialization
+* Vulnerability to drift
 
-Attention is a finite resource (E1).
+Exploration consumes resource margin.
 
-Attention determines:
+Exploitation increases model bias risk.
 
-- which signals enter representation,
-- which distinctions are preserved,
-- which alternatives are evaluated,
-- which failures are detected.
+Balance must respect:
 
-Unattended signals are structurally invisible.
-
-Attention allocation is itself a policy under constraint.
+* Horizon $H$
+* Resource vector $R$
+* Drift magnitude
 
 ---
 
-# 7. Heuristics and Bias
+# 6. Attention Allocation
 
-Heuristics are compressed policies for traversal.
+Attention is bounded computational bandwidth:
 
-They:
+$$
+A_{cap} = \text{bits processed per second}
+$$
 
-- reduce search cost,
-- collapse distinctions,
-- trade optimality for tractability.
+Let signal inputs be:
 
-Bias is unavoidable because:
+$$
+s_1(t), ..., s_k(t)
+$$
 
-- compression is unavoidable (E4),
-- evaluation is expensive (E1),
-- horizons are bounded (E6).
+Attention allocation weights:
 
-Bias becomes failure only when:
+$$
+w_i(t)
+$$
 
-- drift invalidates assumptions,
-- heuristics suppress redesign signals,
-- representation cannot represent its own invalidation.
+Subject to:
+
+$$
+\sum w_i(t) \le A_{cap}
+$$
+
+Unattended signals are structurally unmodeled.
+
+Attention policy affects:
+
+* State estimation accuracy
+* Failure detection
+* Opportunity discovery
+
+Attention misallocation increases systemic blind spots.
 
 ---
 
-# 8. Model Uncertainty and Drift
+# 7. Model Updating Under Drift
 
-Cognitive systems operate with provisional models.
+Let model parameters be:
 
-Drift (E5) implies:
+$$
+\hat{\theta}(t)
+$$
 
-- models degrade,
-- prior probabilities misalign,
-- feedback shifts.
+True parameters drift:
 
-Adaptive cognition requires:
+$$
+\theta(t)
+$$
 
-- preserved redesign pathways (Typing §10),
-- ability to detect model mismatch,
-- tolerance for ambiguity.
+Model error:
 
-Overconfidence is often compressed uncertainty, not certainty.
+$$
+e_\theta(t) = \theta(t) - \hat{\theta}(t)
+$$
+
+Update rule:
+
+$$
+\hat{\theta}(t+1) = U(\hat{\theta}(t), \text{new data})
+$$
+
+Updating consumes:
+
+* Computation
+* Data bandwidth
+* Exploration margin
+
+Failure to update under drift increases policy mismatch.
+
+Over-updating increases instability.
+
+---
+
+# 8. Commitment and Irreversibility
+
+Action execution:
+
+$$
+a_t \rightarrow x(t+1)
+$$
+
+Reduces reachable state space:
+
+$$
+\Omega_{t+1} \subseteq \Omega_t
+$$
+
+Commitment effects:
+
+* Eliminates alternative trajectories.
+* Consumes resources.
+* Alters topology.
+* Modifies future search distribution.
+
+Commitment cost must be accounted for in traversal.
 
 ---
 
 # 9. Halting Conditions
 
-Traversal halts due to:
+Search halts when:
 
-- resource exhaustion (E1),
-- opportunity cost,
-- external interruption,
-- viability constraints (E9).
+1. Resource exhaustion:
+
+$$
+C_{total} \le 0
+$$
+
+2. Time limit reached:
+
+$$
+t = H
+$$
+
+3. Safety threshold approached.
+
+4. Acceptable solution found under metric.
 
 Non-discovery does not imply non-existence.
 
-It implies non-reachability within horizon.
-
-This invalidates:
-
-- merit narratives based purely on visibility,
-- optimization claims assuming exhaustive search,
-- blame attribution based on outcome absence.
+It implies infeasibility within bounded resources.
 
 ---
 
-# 10. Cognitive Load and Control Interaction
+# 10. Cognitive Stability
 
-Cognition interacts with control:
+Cognitive instability occurs when:
 
-- Model quality affects control stability.
-- Control policies constrain exploration.
-- Buffer margins affect risk tolerance.
-- Over-control can suppress exploration.
-- Under-control amplifies noise.
+* Model error exceeds threshold.
+* Exploration depletes resource margin.
+* Exploitation locks into drift-invalid model.
+* Attention bandwidth is saturated by noise.
 
-Cognition and control co-evolve.
+Cognitive stability requires:
 
----
+* Model error bounded.
+* Exploration rate bounded.
+* Resource margin preserved.
+* Drift detection active.
 
-# 11. Cognitive Failure Modes
-
-## 11.1 Premature Closure
-
-Fixing representation too early.
-Collapsing latent degrees of freedom.
-
-Result: brittleness under drift.
+Cognitive failure often precedes control failure.
 
 ---
 
-## 11.2 Endless Exploration
+# 11. Interaction with Control
 
-Never committing to closure.
-Preserving too many distinctions.
+Cognition supplies:
 
-Result: resource exhaustion.
+* Estimated state
+* Policy candidates
+* Adaptation proposals
 
----
+Control enforces:
 
-## 11.3 Model Entrenchment
+* Constraint satisfaction
+* Resource thresholds
+* Actuator limits
 
-Suppressing redesign signals.
-Ignoring topology changes.
+Poor representation increases control effort.
 
-Result: catastrophic misalignment.
+Over-control may suppress exploration signals.
 
----
-
-## 11.4 Attention Capture
-
-External signals hijack limited attention.
-Distortion of traversal priorities.
-
-Result: skewed reachability.
+Cognition and control are coupled subsystems.
 
 ---
 
-# 12. Agency Within Cognitive Limits
+# 12. Interaction with Typing Layer
 
-Agency remains bounded by:
+Cognitive claims must declare:
 
-- representational limits,
-- attention scarcity,
-- path dependence,
-- topology awareness,
-- horizon awareness.
+* Search space size or complexity class
+* Evaluation cost per alternative
+* Horizon $H$
+* Resource budget
+* Drift exposure
 
-Cognitive systems cannot:
+Claims of “optimality” without evaluation feasibility proof are ill-typed.
 
-- consider all alternatives,
-- foresee all consequences,
-- maintain infinite optionality.
-
-Agency is always partial.
+Claims of “all options considered” without capacity justification are ill-typed.
 
 ---
 
-# 13. Cognitive Layer Boundaries
+# 13. What This Layer Does Not Do
 
 This layer does not:
 
-- declare goals,
-- enforce metrics,
-- assign responsibility,
-- define legitimacy.
+* Select which goals matter.
+* Define moral priorities.
+* Assign responsibility.
+* Allocate authority.
+* Guarantee optimality.
 
-It defines how bounded agents:
-
-- construct world models,
-- traverse possibility space,
-- and commit under irreversibility.
-
-Goal selection belongs above.
-Execution physics belongs below.
-Control stabilizes between them.
+It describes bounded search and representation under physics.
 
 ---
 
-# 14. Robotics Mapping (Example)
-
-In robotics:
-
-- Representation → world model, SLAM map, learned policy
-- Traversal → planning tree expansion
-- Exploration → randomization, frontier search
-- Exploitation → fixed policy execution
-- Attention → sensor prioritization
-- Drift → sensor degradation, terrain change
-- Halting → battery depletion, task timeout
-
-The same structural constraints apply to research programs and personal development.
-
----
-
-# Summary
+# 14. Summary
 
 Cognition in bounded systems is:
 
-- compressed representation under irreversibility,
-- prioritized traversal under effective infinity,
-- path-dependent commitment under drift,
-- attention allocation under scarcity.
+* Lossy representation under finite information capacity,
+* Sequential search under resource limits,
+* Path-dependent traversal,
+* Irreversible commitment,
+* Drift-sensitive model updating,
+* Attention allocation under bandwidth constraint.
 
-Global optimality is rarely well-typed.
+Global optimality is typically computationally infeasible.
+
 Reachability dominates existence.
-Traversal shapes the future more than intention.
 
-This layer explains why.
+Cognition shapes the trajectory of execution but does not escape physical constraint.
 
-Execution remains below.
-Control regulates.
-Governance redesigns.
-Goals constrain from above.
+Control regulates it.
+Typing constrains it.
+Execution primitives ground it.
